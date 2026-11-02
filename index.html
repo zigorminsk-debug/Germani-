@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Интерактивная карта Германии: откройте Берлин, Дрезден и Франкфурт-на-Майне.">
+  <title>Германия ближе — интерактивная карта</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="header wrap">
+    <a class="brand" href="index.html" aria-label="Германия ближе — на главную"><span class="brand-mark">G<span>.</span></span><span>ГЕРМАНИЯ<br><small>БЛИЖЕ</small></span></a>
+    <nav aria-label="Основная навигация"><a class="active" href="index.html">Карта</a><a href="#cities">Города</a><a href="#about">О проекте</a></nav>
+    <span class="header-note">НЕБОЛЬШОЙ ПУТЕВОДИТЕЛЬ <span>↗</span></span>
+  </header>
+  <main>
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="line"></span> ПУТЕШЕСТВИЕ НАЧИНАЕТСЯ ЗДЕСЬ</div>
+        <h1 id="hero-title">Германия,<br><em>ближе.</em></h1>
+        <p class="lead">Три города, три разных характера.<br>Одна карта, чтобы их открыть.</p>
+        <p class="hero-description">От истории на улицах Берлина до силуэта Франкфурта — выберите точку на карте и отправляйтесь в небольшое путешествие.</p>
+        <a class="button" href="#cities">Исследовать города <span>↗</span></a>
+        <div class="hero-bottom"><span>01 — 03</span><span class="tiny-line"></span><span>ГОРОДА ГЕРМАНИИ</span></div>
+      </div>
+      <div class="map-card">
+        <div class="map-heading"><div><span class="map-kicker">ИНТЕРАКТИВНАЯ КАРТА</span><h2>Найдите свой город<span>.</span></h2></div><span class="map-index">DE / 01</span></div>
+        <div class="map-image-wrap">
+          <img id="germany-map" src="assets/germany-map.svg" width="700" height="760" usemap="#germany" alt="Карта Германии с отмеченными Берлином, Дрезденом и Франкфуртом-на-Майне">
+          <map name="germany">
+            <area shape="circle" coords="506,278,22" data-coords="506,278,22" href="berlin.html" alt="Берлин — столица Германии">
+            <area shape="poly" coords="523,380,545,402,523,424,501,402" data-coords="523,380,545,402,523,424,501,402" href="dresden.html" alt="Дрезден">
+            <area shape="poly" coords="257,458,279,480,257,502,235,480" data-coords="257,458,279,480,257,502,235,480" href="frankfurt.html" alt="Франкфурт-на-Майне">
+          </map>
+          <div class="map-compass" aria-hidden="true"><span>N</span><b>✳</b></div>
+          <span class="map-country" aria-hidden="true">DEUTSCHLAND</span>
+        </div>
+        <div class="map-footer"><span><i class="legend-circle"></i> СТОЛИЦА</span><span><i class="legend-diamond"></i> ГОРОД</span><span class="map-hint">НАЖМИТЕ НА МЕТКУ ↗</span></div>
+      </div>
+    </section>
+    <section class="cities wrap" id="cities">
+      <div class="section-heading"><div><div class="eyebrow"><span class="line"></span> ВЫБЕРИТЕ НАПРАВЛЕНИЕ</div><h2>Три города. <em>Три истории.</em></h2></div><p>У каждого города свой ритм.<br>С какого начнёте вы?</p></div>
+      <div class="city-grid">
+        <a class="city-card" href="berlin.html"><div class="city-photo berlin-photo"><span class="photo-index">01 / 03</span><span class="photo-tag">СТОЛИЦА</span></div><div class="city-info"><div><span>ИСТОРИЯ И СОВРЕМЕННОСТЬ</span><h3>Берлин</h3><p>Город, который постоянно меняется.</p></div><b aria-hidden="true">↗</b></div></a>
+        <a class="city-card" href="dresden.html"><div class="city-photo dresden-photo"><span class="photo-index">02 / 03</span><span class="photo-tag">САКСОНИЯ</span></div><div class="city-info"><div><span>ИСКУССТВО И АРХИТЕКТУРА</span><h3>Дрезден</h3><p>Барочная красота на берегах Эльбы.</p></div><b aria-hidden="true">↗</b></div></a>
+        <a class="city-card" href="frankfurt.html"><div class="city-photo frankfurt-photo"><span class="photo-index">03 / 03</span><span class="photo-tag">ГЕССЕН</span></div><div class="city-info"><div><span>ТРАДИЦИИ И НЕБОСКРЁБЫ</span><h3>Франкфурт</h3><p>Большой город на берегу Майна.</p></div><b aria-hidden="true">↗</b></div></a>
+      </div>
+    </section>
+    <section class="about wrap" id="about"><div class="eyebrow"><span class="line"></span> О ПРОЕКТЕ</div><p>Немного географии.<br><em>Много поводов увидеть больше.</em></p><span>ПРОСТОЙ ПУТЕВОДИТЕЛЬ ПО ТРЁМ НЕПРОСТЫМ ГОРОДАМ ↗</span></section>
+  </main>
+  <footer class="footer wrap"><a class="brand footer-brand" href="index.html"><span class="brand-mark">G<span>.</span></span><span>ГЕРМАНИЯ<br><small>БЛИЖЕ</small></span></a><span>СДЕЛАНО ДЛЯ ЛЮБОЗНАТЕЛЬНЫХ</span><a href="#hero-title">НАВЕРХ ↑</a></footer>
+</body>
+</html>
