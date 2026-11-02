@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build and publish site
 
 on:
   push:
@@ -11,24 +11,69 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: site-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      pages_enabled: ${{ steps.pages.outputs.enabled }}
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v4
+      - name: Check site and links
+        run: |
+          python3 tests/check_site.py
+          node --check script.js
+      - name: Prepare static site
+        run: |
+          mkdir -p dist
+          cp index.html berlin.html dresden.html frankfurt.html styles.css script.js dist/
+          cp -r assets dist/
+      - name: Save downloadable site
+        uses: actions/upload-artifact@v4
+        with:
+          name: germany-site
+          path: dist/
+          if-no-files-found: error
+      - name: Check Pages configuration
+        id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if output=$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq .build_type 2>&1); then
+            if [ "$output" = "workflow" ]; then
+              echo 'enabled=true' >> "$GITHUB_OUTPUT"
+            else
+              echo 'enabled=false' >> "$GITHUB_OUTPUT"
+              echo 'Pages is not configured to use GitHub Actions; skipping deployment.'
+            fi
+          elif echo "$output" | grep -q 'HTTP 404'; then
+            echo 'enabled=false' >> "$GITHUB_OUTPUT"
+            echo 'Pages is not enabled; the downloadable artifact and preview are still available.'
+          else
+            echo "$output" >&2
+            exit 1
+          fi
+      - name: Add preview link to summary
+        run: |
+          echo '### Site preview' >> "$GITHUB_STEP_SUMMARY"
+          echo "[Open the site via raw.githack.com](https://raw.githack.com/${GITHUB_REPOSITORY}/${GITHUB_SHA}/index.html)" >> "$GITHUB_STEP_SUMMARY"
+          echo 'This is a third-party preview; it may show a confirmation screen before opening HTML.' >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload Pages artifact
+        if: steps.pages.outputs.enabled == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
   deploy:
+    if: needs.build.outputs.pages_enabled == 'true'
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Check out site
-        uses: actions/checkout@v4
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-      - name: Upload site
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
